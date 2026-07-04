@@ -1,0 +1,8 @@
+.env
+*.log
+reconciliation_report_*.csv
+customers_checksums.csv
+venv/
+__pycache__/
+dbt_project/target/
+dbt_project/dbt_packages/
