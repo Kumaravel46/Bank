@@ -1,0 +1,20 @@
+# profiles.yml
+# Place this in ~/.dbt/profiles.yml (NOT inside the dbt project folder)
+# Fill in your actual Snowflake account details / credentials.
+# Never commit this file with real passwords to GitHub - use env vars
+# in CI/CD (see 07_github_actions guide in the project README).
+
+bank_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('VVXRFQL.PT50700') }}"      # e.g. xy12345.ap-south-1
+      user: "{{ env_var('KUMARAVEL') }}"
+      password: "{{ env_var('Kumaravel@1057') }}"
+      role: BANK_DATA_ENGINEER
+      database: BANK_DB
+      warehouse: BANK_WH
+      schema: STAGING
+      threads: 4
+      client_session_keep_alive: False

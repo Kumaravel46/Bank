@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    database: BANK_DB
+    schema: RAW
+    tables:
+      - name: customers
+      - name: accounts
+      - name: transactions
+        description: "Flattened transactions table (already parsed from VARIANT in Snowflake SQL layer)"

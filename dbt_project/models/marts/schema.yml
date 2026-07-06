@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Cleaned customer records from RAW.CUSTOMERS"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+          - not_null
+
+  - name: stg_accounts
+    description: "Cleaned account records from RAW.ACCOUNTS"
+    columns:
+      - name: account_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['ACTIVE', 'DORMANT', 'CLOSED']
+
+  - name: stg_transactions
+    description: "Cleaned, flattened transaction records"
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        tests:
+          - not_null
+
+  - name: dim_customers
+    description: "Customer dimension"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_accounts
+    description: "Account dimension"
+    columns:
+      - name: account_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fct_transactions
+    description: "Transaction fact table, grain = one row per transaction"
+    columns:
+      - name: transaction_id
+        tests:
+          - unique
+          - not_null
+      - name: account_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_accounts')
+              field: account_id
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
